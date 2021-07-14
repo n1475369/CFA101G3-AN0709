@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/cssreset.css">
+    <link rel="stylesheet" href="css/registerSeller.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <title>嫁給幸福店家會員註冊｜MarryHappiness</title>
+</head>
+<body>
+    <div class="register-wrap">
+        <div class="register-container">
+            <a href="#"><img src="images/MHlogo_04.svg" alt=""></a>
+            <h2>註冊您的 MarryHappiness 嫁給幸福店家帳號</h2>
+            <form action="" class="register-form">
+                <label for="username">Email</label><br>
+                <input type="text" id = "username" name="username" placeholder="請輸入您的Email，作為登入帳號">
+                <h3 id="u-prompt"></h3>
+                <label for="password">密碼</label><br>
+                <input type="password" id="password" name="password" maxlength="20" placeholder="請輸入您的密碼">
+                <h3 id="p-prompt"></h3>
+                <label for="re-password">確認密碼</label><br>
+                <input type="password" id="re-password" name="re-password" maxlength="20" placeholder="請再次輸入您的密碼">
+                <h3 id="re-p-prompt"></h3>
+                <label for="name">會員名稱</label><br>
+                <input type="text" id="name" name="name" maxlength="20" placeholder="請輸入您的姓名">
+                <label for="phone">手機號碼</label><br>
+                <input type="text" id="phone" name="phone" maxlength="10" placeholder="請輸入您的手機號碼">
+                <h3 id="phone-prompt"></h3>
+                <label for="role">選擇店家類型</label><br>
+                <select name="role" id="role">
+                    <option value="20">婚紗攝影店家</option>
+                    <option value="30">婚禮場地店家</option>
+                    <option value="40">婚禮週邊店家</option>
+                </select>
+                <label for="shopname">商店名稱(可隨時修改)</label>
+                <input type="text" id="shopname" name="shopname" maxlength="20" placeholder="請輸入您的商店名稱">
+                <label for="city">店家地址</label>
+                <div id="twzipcode"></div>
+                <input type="text" id="street" name="street" maxlength="30" placeholder="詳細地址">
+                <input type="button" id="register" value="註冊" disabled>
+            </form>
+        </div>
+        <h2 class="register-footer">已經是店家會員了嗎?<a href="login.html">登入</a></h2>
+    </div>
+ 
+    <script src="js/registerSeller.js"></script>
+    <script src="js/jquery.twzipcode.js"></script>
+    <script>
+        $('#twzipcode').twzipcode({
+            'zipcodeSel'  : '106', 
+            'countySel'   : '臺北市',
+            'districtSel' : '大安區'
+        });
+    </script>
+</body>
+</html>

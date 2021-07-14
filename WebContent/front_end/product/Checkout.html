@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/all.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+<style>
+    .wrap {
+        background-color: rgb(240, 240, 240);
+        padding-bottom: 50px;
+    }
+
+    img {
+        width: 100px;
+        height: 100px;
+    }
+
+    nav {
+        font-size: 24px;
+        height: 108px;
+        width: 100%;
+        background: #ff80a2;
+        color: #fff;
+        padding: 10px;
+        line-height: 88px;
+        margin-bottom: 50px;
+    }
+
+    nav img {
+        width: 300px;
+    }
+
+    .item-info {
+        background: #fff;
+        border-radius: 5px;
+    }
+
+    .item {
+        padding: 10px 20px;
+    }
+
+    .item-header {
+        padding: 10px 30px;
+        border-bottom: 1px solid #c5c1c1;
+    }
+
+    .large-font {
+        font-size: 20px;
+    }
+
+    .small-font {
+        font-size: 16px;
+    }
+
+    .order {
+        background: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        top: 0;
+        position: sticky;
+    }
+
+
+
+    .title {
+        margin-bottom: 30px;
+    }
+
+    .detail {
+        padding: 10px;
+    }
+
+    .price {
+        padding: 10px;
+        color: rgb(247, 66, 47);
+    }
+
+
+    .detail-list {
+        width: 100%;
+        padding: 0 10px;
+        margin-bottom: 15px;
+    }
+
+    .detail-list span {
+        display: inline-block;
+    }
+
+    .site-color {
+        color: rgb(247, 66, 47);
+    }
+
+    .checkout-btn {
+        width: 100%;
+        color: white;
+        padding: 17px 0px;
+        margin-top: 10px;
+        border: 0px none;
+        cursor: pointer;
+        border-radius: 4px;
+        background-color: rgb(247, 66, 47);
+
+    }
+
+
+    .block-header {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    .checkbox {
+        border: 1px solid rgb(247, 66, 47);
+        height: 18px;
+        width: 18px;
+        border-radius: 50%;
+        position: relative;
+        display: inline-block;
+    }
+
+    .checkbox-check {
+        display: none;
+        border: 1px solid rgb(247, 66, 47);
+        background: rgb(247, 66, 47);
+        height: 10px;
+        width: 10px;
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .shipment {
+        background: #fff;
+        padding: 20px;
+        margin-top: 20px;
+        border-radius: 5px;
+    }
+
+    .shipment-info {
+        display: inline-block;
+        line-height: 18px;
+    }
+
+    .shipment-img {
+        width: 35px;
+        height: 35px;
+        margin-left: 10px;
+    }
+
+    .shipment-img-shop {
+        width: 25px;
+        height: 25px;
+        margin-left: 15px;
+        margin-right: 5px;
+    }
+
+    .shipment-list {
+        padding: 6px 14px;
+        cursor: pointer;
+        border: 1px solid rgb(227, 227, 227);
+        margin-bottom: 8px;
+        border-radius: 4px;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-start;
+        align-items: center;
+        align-self: baseline;
+    }
+
+    .shipment-list:hover {
+        border: 1px solid rgb(247, 66, 47);
+    }
+
+    .active {
+        display: block;
+    }
+
+    .pd-10 {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+
+    .payment {
+        background: #fff;
+        padding: 20px;
+        margin-top: 20px;
+        border-radius: 5px;
+    }
+
+    .payment-list {
+        width: 178px;
+        cursor: pointer;
+        display: inline-flex;
+        padding: 6px 14px;
+        border: 1px solid rgb(227, 227, 227);
+        margin: 0px 8px 8px 0px;
+        border-radius: 4px;
+        align-items: center;
+    }
+
+    .payment-list:hover {
+        border: 1px solid rgb(247, 66, 47);
+    }
+
+    .select {
+        color: rgb(247, 66, 47);
+        background-color: rgb(254, 236, 234);
+        border-color: rgb(248, 85, 68)
+    }
+
+    .fa-dollar-sign {
+        color: green;
+        font-size: 20px;
+    }
+
+    .fa-cc-visa {
+        color: blue;
+        font-size: 20px;
+    }
+
+    .fa-money-bill-wave {
+        color: #508867;
+    }
+
+    .block-footer {
+        margin-top: 30px;
+        background: #faf9f9;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+
+    .fields {
+        margin-bottom: 10px;
+    }
+
+    .fields input {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 4px;
+        outline: none;
+        border: 1px solid rgb(227, 227, 227)
+    }
+
+    .fields input[name="zipcode"] {
+        display: none;
+    }
+
+    .fields select[name="cityarea"] {
+        margin-left: 18px;
+        margin-right: -0.75rem;
+    }
+
+    .fields select {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 4px;
+        outline: none;
+        border: 1px solid rgb(227, 227, 227)
+    }
+
+    .recipient-data {
+        background: #fff;
+        padding: 20px;
+        margin-top: 20px;
+        border-radius: 5px;
+    }
+
+    .error {
+        color: rgb(247, 66, 47);
+        font-size: 12px;
+    }
+
+    .errorActive {
+        border: 1px solid rgb(247, 66, 47) !important;
+    }
+</style>
+
+<body>
+    <div class="wrap">
+        <div id="checkout" class="checkout"></div>
+        <nav>
+            <img src="images/MHlogo_04.svg" alt="">
+            嫁給幸福｜MarryHappiness
+        </nav>
+        <div class="container">
+            <div class="row">
+                <div class="col-8">
+                    <div class="item-info">
+                        <div class="item-header d-flex justify-content-between">
+                            <div class="large-font">訂單商品</div>
+                            <div class="small-font">價格</div>
+                        </div>
+                        <div class="item d-flex">
+                            <img src="images/animal_penguin_couple.png" alt="">
+                            <div class="detail">
+                                <div class="title">日本銀座職人咖啡(8g x 10包)</div>
+                                <div class="count">x1</div>
+                            </div>
+                            <div class="price ms-auto">$360</div>
+                        </div>
+                    </div>
+                    <div class="shipment">
+                        <div class="block-header"><i class="fas fa-truck"></i>&nbsp&nbsp配送方式</div>
+                        <div class="block-content">
+                            <div class="shipment-list" data-shipment="delivery">
+                                <div class="checkbox">
+                                    <div class="checkbox-check"></div>
+                                </div>
+                                <img class="shipment-img" src="images/truck.svg">
+                                <div class="shipment-info">&nbsp宅配&nbsp&nbsp運費60元</div>
+                            </div>
+                            <div class="shipment-list pd-10" data-shipment="free">
+                                <div class="checkbox">
+                                    <div class="checkbox-check"></div>
+                                </div>
+                                <img class="shipment-img-shop" src="images/shops.png">
+                                <div class="shipment-info">&nbsp門市自取&nbsp&nbsp運費0元</div>
+                            </div>
+                            <div class="error" id="shipmentError"></div>
+                        </div>
+                    </div>
+                    <div class="payment">
+                        <div class="block-header"><i class="fas fa-money-bill-wave"></i>&nbsp&nbsp付款方式</div>
+                        <div class="block-content">
+                            <div class="payment-list-block">
+                                <div class="payment-list" data-payment="creditCard"><i class="fab fa-cc-visa"></i>&nbsp&nbsp信用卡線上付款</div>
+                                <div class="payment-list" data-payment="transfer"><i class="fas fa-dollar-sign"></i>&nbsp&nbspATM線上付款</div>
+                            </div>
+                            <div class="error" id="paymentError"></div>
+                        </div>
+                        <div class="block-footer">免手續費，接受台灣各大銀行發行之 Visa、MasterCard、JCB 信用卡。</div>
+                    </div>
+                    <div class="recipient-data">
+                        <div class="block-header"><i class="far fa-address-card"></i>&nbsp&nbsp收件人資訊</div>
+                        <div class="block-content">
+                            <div class="row">
+                                <div class="fields col-6">
+                                    <label>姓名</label>
+                                    <input type="text" placeholder="收件人姓名" id="name">
+                                    <div class="error" id="nameError"></div>
+                                </div>
+                                <div class="fields col-6">
+                                    <label>手機</label>
+                                    <input type="text" placeholder="請輸入手機號碼" id="phone" maxlength="10">
+                                    <div class="error" id="phoneError"></div>
+                                </div>
+                                <div class="fields col-6">
+                                    <label>縣市</label>
+                                    <select id="city"></select>
+                                    <div class="error" id="cityError"></div>
+                                </div>
+                                <div class="fields col-6">
+                                    <label>鄉鎮或市區</label>
+                                    <select id="cityarea"></select>
+                                    <div class="error" id="cityareaError"></div>
+                                </div>
+                                <div class="fields col-6">
+                                    <label>詳細地址</label>
+                                    <input type="text" placeholder="請輸入詳細地址" id="street">
+                                    <div class="error" id="streetError"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-4">
+                    <div class="order">
+                        <h3><i class="far fa-list-alt"></i> 結帳明細</h3>
+                        <div class="order-content">
+                            <div class="detail-list d-flex justify-content-between">
+                                <span>商品總價</span>
+                                <span>$360</span>
+                            </div>
+                            <div class="detail-list d-flex justify-content-between">
+                                <span>運費</span>
+                                <span class="site-color" id="delivery-fee"></span>
+                            </div>
+                            <hr>
+                            <div class="detail-list d-flex justify-content-between">
+                                <h3 class="site-color">合計金額</h3>
+                                <h3 class="site-color">$0</h3>
+                            </div>
+                            <button class="checkout-btn" id="checkout-btn">進行結帳</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="js/taiwan_address_auto_change.js"></script>
+    <script>
+        //初始化地址連動選單
+        AddressSeleclList.Initialize('city', 'cityarea');
+
+        let shipment="";//運送方式預設為空字串
+        let payment="";//付款方式預設為空字串
+        //點擊運送方式添加確認效果
+        $('.shipment-list').on('click', function (e) {
+            shipment = e.currentTarget.dataset.shipment;
+            $('#shipmentError').text("")
+            $(e.currentTarget).siblings('.shipment-list').removeClass('select');
+            $(e.currentTarget).siblings('.shipment-list').find('.checkbox-check').removeClass('active')
+            $(e.currentTarget).addClass('select');
+            $(e.currentTarget).find('.checkbox-check').addClass('active');
+            deliveryFee();
+        })
+        //確認運送方式是否有選擇
+        function checkShipment(){
+            if(shipment == ""){
+                $('#shipmentError').text("運送方式請選擇一種")
+                return false;
+            }else{
+                $('#shipmentError').text("")
+                return true;
+            }
+        }
+        
+        //計算運費
+        function deliveryFee(){
+            if(shipment=="delivery"){
+                $('#delivery-fee').text("$60")
+                return 60;
+            }else if(shipment=="free"){
+                $('#delivery-fee').text("$0")
+                return 0;
+            }
+        }
+
+        //點擊付款方式添加確認效果
+        $('.payment-list').on('click', function (e) {
+            payment = e.currentTarget.dataset.payment;
+            $('#paymentError').text("")
+            $(e.currentTarget).siblings('.payment-list').removeClass('select');
+            $(e.currentTarget).addClass('select');
+        })
+        //確認付款方式是否有選擇
+        function checkPayment(){
+            if(payment == ""){
+                $('#paymentError').text("付款方式請選擇一種")
+                return false;
+            }else{
+                $('#paymentError').text("")
+                return true;
+            }
+        }
+
+        //驗證姓名不得為空
+        $('#name').on('input', checkName);
+        function checkName() {
+            if ($('#name').val() == "") {
+                $('#nameError').text("收件人姓名不得為空")
+                $('#name').addClass('errorActive');
+                return false;
+            } else {
+                $('#nameError').text("");
+                $('#name').removeClass('errorActive');
+                return true;
+            }
+        }
+
+        //驗證手機格式是否正確
+        $('#phone').on('input', checkPhone);
+        function checkPhone() {
+            let phone = $('#phone').val();
+            const re = /^09[0-9]{8}$/;
+            if (re.test(phone)) {
+                $('#phoneError').text("")
+                $('#phone').removeClass('errorActive');
+                return true;
+            } else {
+                $('#phoneError').text("收件人手機格式錯誤")
+                $('#phone').addClass('errorActive');
+                return false;
+            }
+        }
+
+        //驗證縣市是否為空
+        $('#city').on('change',checkCity);
+        function checkCity() {
+            if ($('#city').val() == "") {
+                $('#cityError').text("收件人地址不得為空")
+                $('#city').addClass('errorActive');
+                return false;
+            } else {
+                $('#cityError').text("");
+                $('#city').removeClass('errorActive');
+                return true;
+            }
+        }
+
+        //驗證鄉鎮或市區是否為空
+        $('#city').on('change',checkCityarea);
+        function checkCityarea() {
+            if ($('#cityarea').val() == "") {
+                $('#cityareaError').text("收件人地址不得為空")
+                $('#cityarea').addClass('errorActive');
+                return false;
+            } else {
+                $('#cityareaError').text("");
+                $('#cityarea').removeClass('errorActive');
+                return true;
+            }
+        }
+
+        //驗證詳細地址是否為空
+        $('#street').on('input', checkStreet);
+        function checkStreet() {
+            if ($('#street').val() == "") {
+                $('#streetError').text("收件人詳細地址不得為空")
+                $('#street').addClass('errorActive');
+                return false;
+            } else {
+                $('#streetError').text("");
+                $('#street').removeClass('errorActive');
+                return true;
+            }
+        }
+
+        //送出結帳表單
+        $('#checkout-btn').on('click', function () {
+            if (checkName() & checkPhone() & checkCity() & checkCityarea() & checkStreet() & checkShipment() & checkPayment()) {
+                alert('success');
+                // AddressSeleclList.ReturnSelectAddress('city', 'cityarea');
+
+            }else{
+                alert('error');
+            }
+        });
+
+
+
+    </script>
+
+</body>
+
+</html>

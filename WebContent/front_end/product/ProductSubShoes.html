@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/all.css">
+    <link rel="stylesheet" href="css/cssreset.css">
+    <link rel="stylesheet" href="css/ProMain.css">
+    <link rel="stylesheet" href="css/header.css">
+   
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <title>商品分頁</title>
+</head>
+<body>
+<!--大頭-->
+<div class="header">
+    <div class="top-container">
+        <ul class="user-menu">
+            <li><a href="/CFA101G3/front_end/member/memberBuyProfile.html"><i class="fas fa-home"></i> 會員系統</a></li>
+            <li><a href="/CFA101G3/front_end/member/login.html"><i class="fas fa-sign-out-alt"></i> 登出</a></li>
+        </ul>
+    </div>
+    <ul class="nav">
+        <li><a href="#">Wedding<br>Photography</a></li>
+        <li><a href="#">Wedding<br>Place</a></li>
+        <li><a href="#" class="logo"><img src="images/MHlogo_01.svg"></a></li>
+        <li><a href="/CFA101G3/front_end/product/ProductMain.html">Wedding<br>Gift</a></li>
+        <li><a href="#">Wedding<br>Topic</a></li>
+    </ul>
+</div>
+
+<div class="list"></div>
+<div id="showPro" class="showPro"></div>
+        
+        
+<script>
+    //AJAX請求圖片
+            $.ajax({
+            url      :"../../product/ProImgSubServlet",
+            type     :"get",
+            dataType :"JSON",
+            data     :{"pro_proc_id":1},
+
+        success: function(data){
+            console.log(data);
+            for(let p=0;p<data.length;p++){
+            let images =`<img src="../../product/ProImgOutServlet?proi_id=${data[p].proi_id}" alt="">`; 
+            $("#showPro").append(images);
+        }}
+    });         
+   
+</script>
+
+
+</body>
+</html>

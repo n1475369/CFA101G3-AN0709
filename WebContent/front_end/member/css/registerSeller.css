@@ -1,0 +1,124 @@
+.register-wrap{
+    background: #f8f4ed;
+    padding-top: 30px;
+    padding-bottom: 50px;
+}
+
+.register-container img{
+    max-width: 400px;
+    height: auto;
+    border-radius: 10px;
+    display: block;
+    margin: 0 auto;
+}
+
+.register-container h2{
+    text-align: center;
+    margin: 30px 0;
+    font-size: 16px;
+    font-weight: normal;
+    color: #a09c9c;
+}
+
+.register-container {
+    width: 60%;
+    background:#fff;
+    margin: 0 auto;
+    padding: 100px;
+    border-radius: 10px;
+}
+
+.register-form{
+    display: block;
+    margin: 0 auto;
+    width: 50%;
+}
+
+.register-form input[type="text"],.register-form input[type="password"]{
+    display: block;
+    width: 98%;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid #a1a0a0;
+    margin-bottom: 10px;
+}
+
+.register-form input[type="text"]:focus,.register-form input[type="password"]:focus{
+    border: 2px solid #f1a7c0;
+    outline: none; 
+}
+
+.register-form input[name="zipcode"]{
+    display: none;
+}
+
+.register-form select{
+    width: 99%;
+    height: 35px;
+    border-radius: 5px;
+    border: 1px solid #a1a0a0;
+    margin-bottom: 10px;
+}
+
+.register-form select:focus{
+    border: 2px solid #f1a7c0;
+    outline: none; 
+}
+
+
+.register-form label{
+    line-height: 35px;
+    font-size: 18px;
+}
+
+.register-form input[type="button"]{
+    display: block;
+    height: 45px;
+    width: 100%;
+    margin: 15px auto;
+    color:#fff;
+    background:#fc9086ce;
+    border: 1px solid #fc9086ce;
+    border-radius: 5px;
+    outline: none;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+.register-form input[type="button"]:hover{
+    background:#fc9086;
+    border: 1px solid #fc9086;
+    cursor: pointer;
+}
+
+.register-form input[type="button"]:disabled{
+    cursor: not-allowed;
+    
+}
+
+.register-form a,.register-form span{
+    text-decoration: none;
+    color: #a09c9c;
+    
+}
+
+.register-form a:hover{
+    color: #fb6b5e;
+}
+
+.register-footer{
+    text-align: center;
+    margin-top: 35px;
+    font-size: 16px;
+    font-weight: normal;
+    color: #a09c9c;
+}
+
+.register-footer a{
+    text-decoration: none;
+    color: #fb6b5ede;
+}
+
+.register-footer a:hover{
+    color: #fb6b5e;
+}

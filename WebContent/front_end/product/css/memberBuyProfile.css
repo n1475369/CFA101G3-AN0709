@@ -1,0 +1,150 @@
+.wrap{
+    margin: 0;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Helvetica Neue,PingFang TC,Noto Sans TC,微軟正黑體,Microsoft JhengHei,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.7;
+    color: #495057;
+    text-align: left;
+    background-color: #f3f1f1;
+    display: flex;
+    padding: 30px;
+    
+}
+
+.side-bar img{
+    max-width: 100px;
+    display: block;
+    margin: 0 auto;
+}
+
+.side-bar{
+    width: 30%;
+    border-radius: 10px;
+    background: #fff;
+    padding-bottom: 30px;
+    margin-right: 30px;
+    padding-top: 30px;
+}
+
+.s-user-name{
+    color: #fb6b5e;
+    font-size: 20px;
+    text-align: center;
+}
+.user-hr{
+    display: flex;
+    justify-content: center;
+}
+.user-hr i{
+    color: #dee2e6;
+    margin-bottom: 20px;
+}
+
+.user-hr::before{
+    color: #dee2e6;
+    content: "———————";
+    line-height: 20px;
+}
+
+.user-hr::after{
+    color: #dee2e6;
+    content: "———————";
+    line-height: 20px;
+}
+
+.menu a{
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: #495057;
+}
+
+.menu i{
+    display: inline-block;
+    margin-right: 10px;
+    color: #fc9086;
+}
+
+.menu li{
+    width: 85%;
+    line-height: 45px;
+    margin: 10px auto;
+}
+
+.menu a:hover{
+    color: #fa3e2c;
+    background: #fc908621;
+    border-radius: 5px;
+}
+
+h2{
+    font-size: 20px;
+    font-weight: 500;
+}
+
+h3{
+    color: #fb6b5e;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.profile{
+    padding: 30px;
+    background:#fff;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.profile span{
+    font-weight: 500;
+}
+
+.content{
+    width: 100%;
+}
+
+small{
+    font-size: 14px;
+    color: #868e96;
+    padding-left: 10px;
+}
+
+.h50{
+    line-height: 50px;
+}
+
+.edit{
+    float:center;
+    display: block;
+    height: 32px;
+    width: 54px;
+    color:#fff;
+    background:#fc9086ce;
+    border: 1px solid #fc9086ce;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.edit:hover{
+    background:#fc9086;
+    border: 1px solid #fc9086;
+    cursor: pointer;
+}
+
+.profile input[type="text"]{
+    width: 250px;
+    display: block;
+    height: 25px;
+    border-radius: 5px;
+    border: 1px solid lightpink;
+    margin: 10px 20px;
+    position: relative;
+}
+
+.profile input[type="text"]:focus{
+    box-shadow: 0 0 0 2px deeppink;  
+    outline: none;
+}
+
+

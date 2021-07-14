@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/all.css">
+    <link rel="stylesheet" href="css/cssreset.css">
+    <link rel="stylesheet" href="css/ProSeller.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <style>
+        #table thead,
+        #table tr {
+            border-top-width: 1px;
+            border-top-style: solid;
+            border-top-color: rgb(230, 189, 189);
+        }
+
+        #table {
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+            border-bottom-color: rgb(230, 189, 189);
+        }
+
+        #table td,
+        #table th {
+            padding: 5px 10px;
+            font-size: 12px;
+            font-family: Verdana;
+            color: rgb(177, 106, 104);
+        }
+
+        #table tr:nth-child(even) {
+            background: rgb(238, 211, 210)
+        }
+
+        #table tr:nth-child(odd) {
+            background: #FFF
+        }
+    </style>
+    <title>商品中心｜MarryHappiness</title>
+</head>
+
+<body>
+    <div class="header">
+        <div class="top-container">
+            <a href="#" class="logo"><img src="images/MHlogo_04.svg" alt=""></a>
+            <div class="user">
+                <div class="headshot">
+                    <img src="images/bird_couple.png" alt="">
+                </div>
+                <div class="user-name"></div>
+            </div>
+        </div>
+        <ul class="nav">
+            <li><a href="#">拍婚紗</a></li>
+            <li><a href="#">婚禮場地</a></li>
+            <li><a href="#">婚禮週邊</a></li>
+            <li><a href="#">找靈感</a></li>
+        </ul>
+    </div>
+    <div class="wrap">
+        <div class="side-bar">
+            <img src="images/shop_tenin_houseki.png" alt="">
+            <div class="user-name s-user-name"></div>
+            <div class="user-hr"><i class="fas fa-heart"></i></div>
+            <ul class="menu">
+                <li><a href="/CFA101G3/front_end/product/ProductFindByPK.html"><i class="fas fa-user"></i>查詢商品</a></li>
+                <li><a href="/CFA101G3/front_end/product/ProductCRUD.html"><i class="fas fa-file-invoice"></i>商品總覽</a>
+                </li>
+                <li><a href="/CFA101G3/front_end/product/ProductINSERT.html"><i
+                            class="fas fa-shopping-cart"></i>新增商品</a></li>
+                <li><a href="/CFA101G3/front_end/product/ProductUPDATE.html"><i class="fas fa-church"></i>修改商品</a></li>
+                <li><a href="/CFA101G3/front_end/product/ProductDELETE.html"><i class="fas fa-camera-retro"></i>刪除商品</a>
+                </li>
+            </ul>
+        </div>
+        <div class="content">
+            <h2>店家資料</h2>
+            <div class="profile">
+
+                <input type="button" value="查詢用" id="button">
+                <input type="text" name="select" id="select">
+                <!-- <input type="button" value="修改用" id="button2"><br> -->
+               
+                <!-- <input type ="text" placeholder="請輸入商品ID" id="pro_id" name="pro_id"> -->
+                <table id="table"> </table>
+                <table id="table-edit"></table>
+                <!-- <select name="" id="showPK"></select> -->
+
+            </div>
+        </div>
+    </div>
+    <a href=""></a>
+    <script>
+        $("#button").on('click', function () {
+            //取值
+            let pro_smem_id = $("#select").val();
+            console.log(pro_smem_id);
+            //傳送
+            $.ajax({
+                url: "../../product/ProFindBySellerServlet",
+                type: "POST",
+                dataType: "JSON",
+                data: {
+                    "pro_smem_id": pro_smem_id
+                },
+                success: function (data) {
+                    console.log(data);
+                    let LIST = "";
+                    LIST += `<tr>
+						        <th>商品ID</th>
+						        <th>商品名稱</th>
+						        <th>商品價格</th>
+						        <th>商品內容</th>
+						        <th>商品賣家</th>
+						        <th>商品類別</th>
+						        <th>商品狀態</th>
+						     </tr>`
+                    $("#table").html(LIST);
+                    let html = "";
+                    for(i=0;i<data.length;i++){
+                			html +=`<tr>																
+	                                  <td>${data[i].pro_id}</td>
+	                                  <td>${data[i].pro_name}</td>
+	                                  <td>${data[i].pro_price}</td>
+	                                  <td>${data[i].pro_content}</td>
+	                                  <td>${data[i].pro_smem_id}</td>
+	                                  <td>${data[i].pro_proc_id}</td>
+	                                  <td>${data[i].pro_status}</td>
+	                                  </tr>`
+        						}
+           $("#table").append(html);
+                },
+                error: function (data) {
+                    alert("回傳失敗")
+                },
+            });
+        });
+        // <td><a data-proId="${data.pro_id}" href="javascript:void(0)">${data.pro_id}</a></td>
+// function showNames(data){
+//     let selectPK ="";
+//     selectPK += `<option>請選擇商品ID</option>
+//                     <option>${data.pro_id}</option>
+//                     <option>${data.pro_name}</option>
+//                     <option>${data.pro_price}</option>
+//                     <option>${data.pro_content}</option>
+//                     <option>${data.pro_smem_id}</option>
+//                     <option>${data.proc_id}</option>
+//                     <option>${data.status}</option>
+//                     `
+//     $("#showPK").html(selectPK);
+        $('#table').on('click','a',function(e){
+            $('#table').hide();
+            //取值
+            let proid =e.target.dataset.proid;
+            $.ajax({
+                url:"../../product/ProFindByPKServlet",
+                type:"post",
+                dataType:"json",
+                data:{
+                    "pro_id": proid
+                },
+                success:function(data){
+                    let edit = `<tr>
+                        <td>商品ID</td>
+                        <td>${data.pro_id}</td>
+                    </tr>
+                    <tr>
+                        <td>商品名稱</td>
+                        <td><input type="text" id="pro_name" name="pro_name" value="${data.pro_name}"></td>
+                    </tr>
+                    <tr>
+                        <td>商品價格</td>
+                        <td><input type="text" id="pro_price" name="pro_price" value="${data.pro_price}"></td>
+                    </tr>
+                    <tr>
+                        <td>商品內容</td>
+                        <td><input type="text" id="pro_content" name="pro_content" value="${data.pro_content}"></td>
+                    </tr>
+                    <tr>
+                        <td>商品賣家</td>
+                        <td><input type="text" id="pro_smem_id" name="pro_smem_id" value="${data.pro_smem_id}"></td>
+                    </tr>
+                    <tr>
+                        <td>商品類別</td>
+                        <td><input type="text" id="pro_proc_id" name="pro_proc_id" value="${data.pro_proc_id}"></td>
+                    </tr>
+                    <tr>
+                        <td>商品狀態</td>
+                        <td><input type="text" id="pro_status" name="pro_status" value="${data.pro_status}"></td>
+                    </tr>
+                    <tr>
+                    <td><input type="button" value="確定" id="submit"></td>
+                    <td><input type="button" value="取消" id="cancel"></td>
+                    </tr>`;
+                    $("#table-edit").html(edit);
+                    $('#table-edit').show();
+                }
+            })
+        });
+        $('#table-edit').on('click','#cancel',function(e){
+            $('#table-edit').html("");
+            $('#table-edit').hide();
+            $('#table').show();
+        });
+    </script>
+</body>
+
+</html>

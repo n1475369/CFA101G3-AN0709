@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/all.css">
+    <link rel="stylesheet" href="css/cssreset.css">
+    <link rel="stylesheet" href="css/ProSeller.css">
+    <link rel="stylesheet" href="css/header.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <title>商品中心｜MarryHappiness</title>
+</head>
+
+<body>
+    <!--大頭-->
+    <div class="header">
+        <div class="top-container">
+            <ul class="user-menu">
+                <li><a href="/CFA101G3/front_end/member/memberBuyProfile.html"><i class="fas fa-home"></i> 會員系統</a></li>
+                <li><a href="/CFA101G3/front_end/member/login.html"><i class="fas fa-sign-out-alt"></i> 登出</a></li>
+            </ul>
+        </div>
+        <ul class="nav">
+            <li><a href="#">Wedding<br>Photography</a></li>
+            <li><a href="#">Wedding<br>Place</a></li>
+            <li><a href="#" class="logo"><img src="images/MHlogo_01.svg"></a></li>
+            <li><a href="/CFA101G3/front_end/product/ProductMain.html">Wedding<br>Gift</a></li>
+            <li><a href="#">Wedding<br>Topic</a></li>
+        </ul>
+    </div>
+    <div class="wrap">
+        <div class="side-bar">
+            <img src="images/shop_tenin_houseki.png" alt="">
+            <div class="user-name s-user-name"></div>
+            <div class="user-hr"><i class="fas fa-heart"></i></div>
+            <ul class="menu">
+                <li><a href="/CFA101G3/front_end/product/ProductCRUD.html"><i class="fas fa-user"></i>我的商品</a></li>
+                <li><a href="/CFA101G3/front_end/product/ProductINSERT.html"><i
+                            class="fas fa-shopping-cart"></i>新增商品</a></li>
+                <li><a href="/CFA101G3/front_end/product/ProductUPImages.html"><i
+                            class="fas fa-camera-retro"></i>上傳圖片</a>
+                <li><a href="/CFA101G3/front_end/product/ProductCRUD2.html"><i class="fas fa-file-invoice"></i>商品總覽</a>
+                </li>
+                <li><a href="/CFA101G3/front_end/product/ProductDELETE.html"><i class="fas fa-church"></i>刪除商品</a></li>
+
+                </li>
+            </ul>
+        </div>
+        <div class="content">
+            <h2>店家資料</h2>
+            <div class="profile">
+
+                <!-- <input type="button" value="測試用" id="button"> -->
+                <table id="table" class="table"> </table>
+                <!-- <table id="table-edit" class="table"></table> -->
+                <div id="check" class="check">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+
+        //AJAX請求資料
+        $.ajax({
+            url: "../../product/ProFindBySellerServlet",
+            type: "POST",
+            dataType: "JSON",
+            success: function (data) {
+                console.log(data);
+                let LIST = "";
+                LIST += `<tr>
+						        <th>商品ID</th>
+						        <th>商品名稱</th>
+						        <th>商品價格</th>
+						        <th>商品內容</th>
+						        <th>商品類別</th>
+						        <th>商品狀態</th>
+                                <th>更新</th>
+						     </tr>`
+                $("#table").html(LIST);
+                let html = "";
+
+                for (i = 0; i < data.length; i++) {
+                    html += `<tr>																
+                                      <td>${data[i].pro_id}</td>
+	                                  <td>${data[i].pro_name}</td>
+	                                  <td>${data[i].pro_price}</td>
+	                                  <td>${data[i].pro_content}</td>
+	                                  <td>${PROC_ID(data[i].pro_proc_id)}</td>
+	                                  <td>${data[i].pro_status == 1 ? "上架" : "下架"}</td>
+                                      <td><a data-proId="${data[i].pro_id}" href="javascript:void(0)"><i class="fas fa-wrench"></i></a></td>
+	                                  </tr>`
+                }
+                $("#table").append(html);
+            },
+            error: function (data) {
+                alert("尚未登入")
+            },
+        });
+
+        //動態產生會員名
+        $.ajax({
+            type: "get",
+            url: "../../member/buyProfileServlet",
+            dataType: 'json',
+            success: function (result) {
+                if (result == "0") {
+                    window.location.href = "index.html";
+                } else {
+                    resultData = result;
+                    $('.user-name').append(result.name != null ? result.name : "尚未填寫");
+                }
+            }
+        });
+
+        //HEHE
+        function PROC_ID(id) {
+            if (id == 1) {
+                return "婚鞋";
+            } else if (id == 2) {
+                return "婚戒";
+            } else if (id == 3) {
+                return "花束";
+            } else if (id == 4) {
+                return "小物";
+            }
+        }
+
+        //從ID動態產生表單
+        $('#table').on('click', 'a', function (e) {
+            $('#table').hide();
+            //取值
+            let proid = e.currentTarget.dataset.proid;
+            //e.target 事件上 e會顯示是 i
+            //e.currentTarget 看註冊的選擇 會顯示是 a 
+            // .dataset.proid;
+            $.ajax({
+                url: "../../product/ProFindByPKServlet",
+                type: "post",
+                dataType: "json",
+                data: {
+                    "pro_id": proid
+                },
+                success: function (data) {
+                    let edit = `
+                    <table id="table-edit" class="table">
+                    <tr>
+                        <td>商品ID</td>
+                        <td><input type="text" id="pro_id" name="pro_id" disabled value="${data.pro_id}"></td>
+                    </tr>
+                    <tr>
+                        <td>商品名稱</td>
+                        <td><input type="text" id="pro_name" name="pro_name" value="${data.pro_name}"></td>
+                    </tr>
+                    <tr>
+                        <td>商品價格</td>
+                        <td><input type="text" id="pro_price" name="pro_price" value="${data.pro_price}"></td>
+                    </tr>
+                    <tr>
+                        <td>商品類別</td>
+                        
+                        <td> <select name="pro_proc_id" id="pro_proc_id">
+                                <option value="1">婚鞋專區</option>
+                                <option value="2">婚戒專區</option>
+                                <option value="3">花束專區</option>
+                                <option value="4">小物專區</option>
+                            </select> </td>
+                            
+                    </tr>
+                    <tr>
+                        <td>商品狀態</td>
+                        <td>
+                            <label>
+                    <input type="radio" id="pro_status" name="pro_status" value="1">
+                                <span>上架</span>
+                    <input type="radio" id="pro_status" name="pro_status" value="0">
+                                <span>下架</span>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>商品內容</td>
+                        <td>
+                        <textarea  id="pro_content" name="pro_content">
+                            ${data.pro_content}
+                            </textarea>
+                        </td>
+                    </tr>
+                    </table>   
+                    <ul id="checkpoint" class="checkpoint"></ul>
+                    <input type="button" value="確認" id="submit" class="button">
+                    <input type="button" value="取消" id="cancel" class="button">
+                    
+ `
+                    $("#check").html(edit);
+                    $('#check').show();
+                }
+            })
+        });
+
+
+        //驗證商品名稱是否填寫
+        function checkPro_name() {
+            if (($("#pro_name").val()).trim() != "") {
+                $("#pro_name").removeClass("error").addClass("ok");
+                return true;
+            } else {
+                $("#pro_name").removeClass("ok").addClass("error");
+                $("#checkpoint").append("<li>商品名稱尚未填寫</li>");
+                return false;
+            }
+        }
+
+        //驗證商品價格是否格式錯誤
+        function checkPro_price() {
+            if ($("#pro_price").val() > 0) {
+                $("#pro_price").removeClass("error").addClass("ok");
+                return true;
+            } else {
+                $("#pro_price").removeClass("ok").addClass("error");
+                $("#checkpoint").append("<li>商品價格格式錯誤</li>");
+                return false;
+            }
+        }
+
+        //驗證商品狀態是否選擇
+        function checkPro_status() {
+            if ($('input[name=pro_status]:checked').val() == (1 || 0)) {
+                // $("#pro_status").removeClass("error").addClass("ok");
+                return true;
+            } else {
+                // $("#pro_status").removeClass("error").addClass("ok");
+                $("#checkpoint").append("<li>商品狀態尚未選擇</li>");
+                return false;
+            }
+        }
+
+        //驗證商品內容是否有填寫
+        function checkPro_content() {
+            if (($("#pro_content").val()).trim() != "") {
+                $("#pro_content").removeClass("error").addClass("ok");
+                return true;
+            } else {
+                $("#pro_content").removeClass("ok").addClass("error");
+                $("#checkpoint").append("<li>商品內容尚未填寫</li>");
+                return false;
+            }
+        }
+
+        //取消重載入
+        $('#check').on('click', '#cancel', function (e) {
+            // $('#table-edit').html("");
+            // $('#table-edit').hide();
+            // $('#table').show();
+            location.reload(false);
+        });
+
+        //送出修改表單
+        $('#check').on('click', '#submit', function (e) {
+            $("#checkpoint").html("");//清空錯誤訊息
+            //表單驗證均為true才會執行送出表單
+            if (checkPro_name() & checkPro_price() & checkPro_status() & checkPro_content()) {
+                let pro_id = $('#pro_id').val();
+                let pro_name = $('#pro_name').val();
+                let pro_price = $('#pro_price').val();
+                let pro_content = $('#pro_content').val();
+                // let pro_smem_id = $('#pro_smem_id').val();
+                let pro_proc_id = $('#pro_proc_id').val();
+                let pro_status = $("input:radio[name=pro_status]:checked").val()
+                console.log(pro_id);
+                console.log(pro_proc_id);
+                console.log(pro_status);
+                $.ajax({
+                    url: "../../product/ProUpdateServlet",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {
+                        "pro_id": pro_id,
+                        "pro_name": pro_name,
+                        "pro_price": pro_price,
+                        "pro_content": pro_content,
+                        // "pro_smem_id":pro_smem_id,
+                        "pro_proc_id": pro_proc_id,
+                        "pro_status": pro_status
+                    },
+                    success: function (data) {
+                        alert(data.msg);
+                        console.log(data.msg);
+                        console.log(typeof (data));
+                    },
+                    error: function (data) {
+                        alert("執行失敗, 請重新檢查")
+                    },
+                });
+            }else{
+                swal("表單內容有錯誤!", "表單內容請重新檢查", "error");
+            }
+        });
+    </script>
+</body>
+
+</html>

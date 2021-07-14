@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/cssreset.css">
+    <link rel="stylesheet" href="css/login.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <title>嫁給幸福登入｜MarryHappiness</title>
+</head>
+<body>
+    <div class="login-wrap">
+        <div class="login-container">
+            <a href="#"><img src="images/MHlogo_04.svg" alt=""></a>
+            <h2>登入您的 MarryHappiness 嫁給幸福帳號</h2>
+            <form action="" class="login-form">
+                <label for="username">Email</label><br>
+                <input type="text" id = "username" name="username" placeholder="請輸入您的Email">
+                <h3 id="u-prompt"></h3>
+                <label for="password">密碼</label><br>
+                <input type="password" id="password" name="password" maxlength="20" placeholder="請輸入您的密碼">
+                <h3 id="p-prompt"></h3>
+                <input type="button" id="login" value="登入" disabled>
+                <a href="javascript:void(0)" id="forget">忘記密碼</a>
+                <span>|</span>
+                <a href="register.html">免費註冊</a>
+            </form>
+        </div>
+        <h2 class="login-footer"><a href="registerSeller.html">立即加入 </a>MarryHappiness 嫁給幸福的商家吧！</h2>
+        <div class="popup-wrap">
+            <div class="popup"> 
+                <label for="email">請輸入您的信箱</label>
+                <input type="text" id="email" name="email" class="email">
+                <h3 id="prompt"></h3>
+                <button id="submit-email" class="submit-email">確定</button> 
+                <button id="popup-cancel" class="popup-cancel">取消</button>
+            </div> 
+        </div>
+    </div>
+    <script src="js/login.js"></script>
+</body>
+</html>

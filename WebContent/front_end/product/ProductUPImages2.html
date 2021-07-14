@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/all.css">
+    <link rel="stylesheet" href="css/cssreset.css">
+    <link rel="stylesheet" href="css/ProSeller.css">
+    <link rel="stylesheet" href="css/header.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+    <title>商品中心｜MarryHappiness</title>
+</head>
+<body>
+<!--大頭-->
+<div class="header">
+    <div class="top-container">
+        <ul class="user-menu">
+            <li><a href="/CFA101G3/front_end/member/memberBuyProfile.html"><i class="fas fa-home"></i> 會員系統</a></li>
+            <li><a href="/CFA101G3/front_end/member/login.html"><i class="fas fa-sign-out-alt"></i> 登出</a></li>
+        </ul>
+    </div>
+    <ul class="nav">
+        <li><a href="#">Wedding<br>Photography</a></li>
+        <li><a href="#">Wedding<br>Place</a></li>
+        <li><a href="#" class="logo"><img src="images/MHlogo_01.svg"></a></li>
+        <li><a href="/CFA101G3/front_end/product/ProductMain.html">Wedding<br>Gift</a></li>
+        <li><a href="#">Wedding<br>Topic</a></li>
+    </ul>
+</div>
+    <div class="wrap">
+        <!-- SIDE-BAR -->
+    <div class="side-bar">
+            <img src="images/shop_tenin_houseki.png" alt="">
+            <div class="user-name s-user-name"></div>
+            <div class="user-hr"><i class="fas fa-heart"></i></div>
+            <ul class="menu">
+                <li><a href="/CFA101G3/front_end/product/ProductCRUD.html"><i class="fas fa-user"></i>我的商品</a></li>
+                <li><a href="/CFA101G3/front_end/product/ProductINSERT.html"><i class="fas fa-shopping-cart"></i>新增商品</a></li>
+                <li><a href="/CFA101G3/front_end/product/ProductUPImages.html"><i class="fas fa-camera-retro"></i>上傳圖片</a>
+                <li><a href="/CFA101G3/front_end/product/ProductCRUD2.html"><i class="fas fa-file-invoice"></i>商品總覽</a></li>
+                <li><a href="/CFA101G3/front_end/product/ProductDELETE.html"><i class="fas fa-church"></i>刪除商品</a></li>
+                
+                </li>
+            </ul>
+    </div>
+        <!-- CONETNT -->
+    <div class="content">
+            <h2>上傳圖片</h2>
+    <div class="profile">
+
+    <div class="imgID" id="imgID">
+        <select name="selectID" id="selectID">
+            <option value="">--請選擇商品--</option>
+        </select>
+    </div>
+    <span id="check" class="check"> </span>
+    <div class="imgMain" id="imgMain">
+    </div>
+    <div class="imgBtn" id="imgBtn">
+    
+        <form action= "" enctype="multipart/form-data" method="POST" id="imgform">
+            <div class="form-horizontal">
+            <div class="form-group">
+                <label for="file1">選取圖片:</label>
+                <input type="file" id="file1" name="file1" accept="image/*">
+                <input type="hidden" id="uplocpid" name="locp_id">
+            </div>
+            <br>
+            <img id="demoimg" width="450"/>
+            <div class="form-group">
+                <button type="submit" class="uplbtn" id="uplbtn">上傳</button>
+            </div>
+        </div>
+    </form>
+    </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+
+    //動態產生select
+    $.ajax({
+        url:"../../product/ProFindBySellerServlet",
+        Type:"POST",
+        dataType:"JSON",
+        success:function(data){
+            console.log(data);
+            let list ="";
+            for(i=0;i<data.length;i++){
+            list +=`<option value="${data[i].pro_id}">${data[i].pro_name}</option>`
+        }
+        $("#selectID").html(list);
+    }
+    });
+    //AJAX請求圖片
+    $("#selectID").on('change',function(e){
+        let proi_pro_id = $(e.target).val();
+        console.log(proi_pro_id);
+     
+    $.ajax({
+            url      :"../../product/ProImgOutServlet2",
+            type     :"POST",
+            dataType :"JSON",
+            data     :{"proi_pro_id":proi_pro_id},
+
+        success: function(data){
+            console.log(data);
+            for(let p=0;p<data.length;p++){
+            let images =`<img src="data:image/*;base64,${data[p].proi_images}" alt="">`; 
+            $("#imgMain").append(images);
+        }}
+    });
+})              
+    
+        //預覽圖片
+        $('#file1').on('change', function(){
+            var file = $('#file1')[0].files[0];
+            var reader = new FileReader;
+            reader.onload = function(e) {
+            $('#demoimg').attr('src', e.target.result);
+            };
+            reader.readAsDataURL(file);
+        })
+        
+        //上傳圖片的ajax
+        $( '#imgform' ).on('submit', function( e ) {
+            $.ajax( {
+            url: "../../locationprogramimages/addLocpImagesServlet",
+            type: 'POST',
+            data: new FormData( this ),
+            processData: false,
+            contentType: false,
+            success:function(data) {
+                if(data == "1"){
+                    alert("上傳成功");
+                }else{
+                    alert("上傳失敗, 請重新檢查")
+                }
+            },
+            error:function(data) {
+                alert("上傳失敗, 請重新檢查")
+                }
+            
+            
+            } );
+            //取消form表單的跳轉畫面
+            e.preventDefault();
+        } );
+
+
+    </script>
+</body>
+</html>

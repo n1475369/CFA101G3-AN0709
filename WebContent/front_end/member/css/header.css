@@ -1,0 +1,98 @@
+.logo{
+    display: block;
+    width: 300px;
+}
+
+.logo img{
+    border-radius: 10px;
+}
+
+.top-container{
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.user{
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+.user-menu{
+    width: 130px;
+    padding-top: 10px;
+    position: absolute;
+    border: 1px solid #6b666621;
+    left: -30px;
+    top: 55px; 
+    background: #fff;
+    font-weight: 400;
+    font-size: 18px;
+    text-align: left;
+    line-height: 30px;
+    height: 110px;
+    border-radius: 5px;
+    display: none;
+    box-shadow: 5px 5px 5px 1px #b6b3b33f;
+}
+
+.user-menu i {
+    color: #fc9086ce;
+    text-indent: 10px;
+}
+
+.user-menu a{
+    text-decoration: none;
+    color:#000;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.user-menu li:hover{
+    background:#fc90861e;
+    cursor: pointer;
+}
+
+.user:hover .user-menu{
+    display: block;
+    animation: backInUp;
+    animation-duration: 0.4s;
+}
+
+.headshot{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.headshot img{
+    max-width: 100%;
+    border-radius: 50%;
+}
+
+.user-name{
+    line-height: 50px;
+}
+
+.nav{
+    display: flex;
+    padding-left: 30px;
+    width: 50%;
+    justify-content: space-between;
+}
+
+.nav a{
+    padding: 1rem 0;
+    font-weight: 500;
+    line-height: 1;
+    cursor: pointer;
+    text-decoration: none;
+    color: #495057;
+}
+
+.header{
+    border-bottom: 1px solid #fc9086ce;
+    padding-bottom: 30px;
+}
