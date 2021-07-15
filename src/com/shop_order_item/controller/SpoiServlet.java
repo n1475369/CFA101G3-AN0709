@@ -104,6 +104,7 @@ public class SpoiServlet extends HttpServlet {
 				response.getWriter().print(mapJSON);
 			}
 		}
+		
 	}
 
 	

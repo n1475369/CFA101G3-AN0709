@@ -9,6 +9,7 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <title>Document</title>
 </head>
 <style>
@@ -42,11 +43,49 @@
         max-width: 50px;
     }
 
-    #cart a{
+    #cart a {
         color: red;
         font-size: 20px;
         text-align: center;
     }
+
+    .site-color {
+        color: rgb(247, 66, 47);
+    }
+
+    #total{
+        margin-right: 40px;
+    }
+
+    .total-list{
+        padding: 0 5px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .modal-header{
+        background: #ff80a2;
+        color: #fff;
+    }
+
+    .modal-header img{
+        display: inline-block;
+        height: 50px;
+    }
+
+    #checkout{
+        background-color: rgb(247, 66, 47);
+        border: 1px solid  rgb(247, 66, 47);
+    }
+
+    .table,input[type="number"]{
+        color: #4d4949!important;
+    }
+
+    .hide{
+        display: none!important;
+    }
+   
 </style>
 
 <body>
@@ -75,6 +114,22 @@
                 <td>4</td>
                 <td><button class="btn btn-danger" type="button" data-proid="4">加到購物車</button></td>
             </tr>
+            <tr>
+                <td>5</td>
+                <td><button class="btn btn-danger" type="button" data-proid="5">加到購物車</button></td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td><button class="btn btn-danger" type="button" data-proid="6">加到購物車</button></td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td><button class="btn btn-danger" type="button" data-proid="7">加到購物車</button></td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td><button class="btn btn-danger" type="button" data-proid="8">加到購物車</button></td>
+            </tr>
         </tbody>
     </table>
 
@@ -89,7 +144,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">購物車</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">購物車<img src="images/MHlogo_04.svg" alt=""></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -104,13 +159,16 @@
                                 <th scope="col">操作</th>
                             </tr>
                         </thead>
-                        <tbody id="cart">
-                        </tbody>
+                        <tbody id="cart"></tbody>
                     </table>
+                    <div id="total-list" class="total-list">
+                        <h5 class="site-color">合計金額</h5>
+                        <h5 class="site-color">$<span id="total"></span></h5>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary">結帳</button>
+                    <button type="button" class="btn btn-primary" id="checkout">結帳</button>
                 </div>
             </div>
         </div>
@@ -147,15 +205,20 @@
             let spoi_totalprice = spoi_quantity * pro_price;//取得小計金額
             $(e.target).parent().next().html(spoi_totalprice);
             updateCart(pro_id, spoi_quantity);
-
+            getTotal();//顯示總金額
         })
 
 
         //監聽點擊刪除鈕後送至後端刪除購物車內商品
-        $('#cart').on('click','a',function(e){
+        $('#cart').on('click', 'a', function (e) {
             let pro_id = e.currentTarget.dataset.proid;
             deleteCartProduct(pro_id);
         })
+
+        //點擊結帳進入結帳頁面
+        $('#checkout').on('click',function(){
+            window.location.href="Checkout.html";
+        });
 
         //加入購物車
         function addCart(pro_id) {
@@ -169,11 +232,14 @@
                 },
                 success: function (data) {
                     let count = 0;
+                    let total = 0;
                     for (const key in data) {
                         count += data[key].spoi_quantity;
+                        total += data[key].spoi_totalprice;
                     }
                     let CountTmp = `<div id="count" class="count">${count}</div>`;
                     $('#cartIcon').html(CountTmp);
+                    $('#total').text(total);
                 }
             });
         }
@@ -181,6 +247,7 @@
         //取得購物車資料
         function getCart() {
             let count = 0;
+            let total = 0;
             $.ajax({
                 type: "get",
                 url: "../../shop_order_item/spoiServlet",
@@ -190,9 +257,13 @@
                 },
                 async: false,
                 success: function (data) {
+                    let set = new Set();
+                    console.log(data);
                     $('#cart').html("");
                     for (const key in data) {
+                        set.add(data[key].provo.pro_smem_id);
                         count += data[key].spoi_quantity;
+                        total += data[key].spoi_totalprice;
                         let ProTmp = ` <tr>
                                 <th scope="row"><img src="../../product/ProImgOutServlet?proi_id=${getProductImg(key)}"></th>
                                 <td>${data[key].provo.pro_name}</td>
@@ -203,22 +274,28 @@
                             </tr>`;
                         $('#cart').append(ProTmp);
                     }
+                    $('#total').text(total);
                     let CountTmp = `<div id="count" class="count">${count}</div>`;
                     $('#cartIcon').html(CountTmp);
+                    console.log(set);
                 }
             });
             if (count == 0) {
                 $('#cart').html("購物車尚未有任何商品");
                 $('#cartIcon').html("");
+                $('#total-list').addClass("hide");
+            }else{
+                $('#total-list').removeClass("hide");
             }
         }
-
+        
         //更新購物車
         function updateCart(pro_id, spoi_quantity) {
             $.ajax({
                 type: "post",
                 url: "../../shop_order_item/spoiServlet",
                 dataType: 'json',
+                async:false,
                 data: {
                     "action": "updateCart",
                     "pro_id": pro_id,
@@ -231,6 +308,25 @@
                     }
                     let CountTmp = `<div id="count" class="count">${count}</div>`;
                     $('#cartIcon').html(CountTmp);
+                }
+            });
+        }
+        //顯示總金額
+        function getTotal(){
+            let total = 0;
+            $.ajax({
+                type: "get",
+                url: "../../shop_order_item/spoiServlet",
+                dataType: 'json',
+                data: {
+                    "action": "getCart"
+                },
+                async: false,
+                success: function (data) {
+                    for (const key in data) {
+                        total += data[key].spoi_totalprice;
+                    }
+                    $('#total').text(total);
                 }
             });
         }
@@ -252,7 +348,7 @@
         }
 
         //商除購物車商品
-        function deleteCartProduct(pro_id){
+        function deleteCartProduct(pro_id) {
             $.ajax({
                 type: "post",
                 url: "../../shop_order_item/spoiServlet",

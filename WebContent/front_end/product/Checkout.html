@@ -9,6 +9,7 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <title>Document</title>
 </head>
 <style>
@@ -38,12 +39,12 @@
     }
 
     .item-info {
-        background: #fff;
         border-radius: 5px;
     }
 
     .item {
         padding: 10px 20px;
+        border-bottom: 1px solid #c5c1c1;
     }
 
     .item-header {
@@ -138,9 +139,7 @@
     }
 
     .shipment {
-        background: #fff;
         padding: 20px;
-        margin-top: 20px;
         border-radius: 5px;
     }
 
@@ -283,6 +282,21 @@
     .errorActive {
         border: 1px solid rgb(247, 66, 47) !important;
     }
+
+
+    .smem i {
+        font-size: 20px;
+    }
+
+    .smem {
+        display: inline-block;
+        padding-left: 10px;
+    }
+
+    .item-block {
+        margin-bottom: 30px;
+        background: #fff;
+    }
 </style>
 
 <body>
@@ -295,46 +309,54 @@
         <div class="container">
             <div class="row">
                 <div class="col-8">
-                    <div class="item-info">
-                        <div class="item-header d-flex justify-content-between">
-                            <div class="large-font">訂單商品</div>
-                            <div class="small-font">價格</div>
-                        </div>
-                        <div class="item d-flex">
-                            <img src="images/animal_penguin_couple.png" alt="">
-                            <div class="detail">
-                                <div class="title">日本銀座職人咖啡(8g x 10包)</div>
-                                <div class="count">x1</div>
+                    <div class="item-info" id="item-info">
+                        <!-- <div id="item-block">
+                            <div class="item-header d-flex justify-content-between">
+                                <div class="large-font">訂單商品</div>
+                                <div class="small-font">價格</div>
                             </div>
-                            <div class="price ms-auto">$360</div>
-                        </div>
-                    </div>
-                    <div class="shipment">
-                        <div class="block-header"><i class="fas fa-truck"></i>&nbsp&nbsp配送方式</div>
-                        <div class="block-content">
-                            <div class="shipment-list" data-shipment="delivery">
-                                <div class="checkbox">
-                                    <div class="checkbox-check"></div>
+                            <div class="smem"><i class="fas fa-store"></i></div>
+                            <div id="item-list">
+                                <div class="item d-flex">
+                                    <img src="images/animal_penguin_couple.png" alt="">
+                                    <div class="detail">
+                                        <div class="title">日本銀座職人咖啡(8g x 10包)</div>
+                                        <div class="count">x1</div>
+                                    </div>
+                                    <div class="price ms-auto">$360</div>
                                 </div>
-                                <img class="shipment-img" src="images/truck.svg">
-                                <div class="shipment-info">&nbsp宅配&nbsp&nbsp運費60元</div>
                             </div>
-                            <div class="shipment-list pd-10" data-shipment="free">
-                                <div class="checkbox">
-                                    <div class="checkbox-check"></div>
+                            <div class="shipment">
+                                <div class="block-header"><i class="fas fa-truck"></i>&nbsp&nbsp配送方式</div>
+                                <div class="block-content">
+                                    <div class="shipment-list" data-shipment="delivery">
+                                        <div class="checkbox">
+                                            <div class="checkbox-check"></div>
+                                        </div>
+                                        <img class="shipment-img" src="images/truck.svg">
+                                        <div class="shipment-info">&nbsp宅配&nbsp&nbsp運費60元</div>
+                                    </div>
+                                    <div class="shipment-list pd-10" data-shipment="free">
+                                        <div class="checkbox">
+                                            <div class="checkbox-check"></div>
+                                        </div>
+                                        <img class="shipment-img-shop" src="images/shops.png">
+                                        <div class="shipment-info">&nbsp門市自取&nbsp&nbsp運費0元</div>
+                                    </div>
+                                    <div class="error" id="shipmentError"></div>
                                 </div>
-                                <img class="shipment-img-shop" src="images/shops.png">
-                                <div class="shipment-info">&nbsp門市自取&nbsp&nbsp運費0元</div>
                             </div>
-                            <div class="error" id="shipmentError"></div>
-                        </div>
+                        </div> -->
                     </div>
+
                     <div class="payment">
                         <div class="block-header"><i class="fas fa-money-bill-wave"></i>&nbsp&nbsp付款方式</div>
                         <div class="block-content">
                             <div class="payment-list-block">
-                                <div class="payment-list" data-payment="creditCard"><i class="fab fa-cc-visa"></i>&nbsp&nbsp信用卡線上付款</div>
-                                <div class="payment-list" data-payment="transfer"><i class="fas fa-dollar-sign"></i>&nbsp&nbspATM線上付款</div>
+                                <div class="payment-list" data-payment="creditCard"><i
+                                        class="fab fa-cc-visa"></i>&nbsp&nbsp信用卡線上付款</div>
+                                <div class="payment-list" data-payment="transfer"><i
+                                        class="fas fa-dollar-sign"></i>&nbsp&nbspATM線上付款</div>
                             </div>
                             <div class="error" id="paymentError"></div>
                         </div>
@@ -343,33 +365,39 @@
                     <div class="recipient-data">
                         <div class="block-header"><i class="far fa-address-card"></i>&nbsp&nbsp收件人資訊</div>
                         <div class="block-content">
-                            <div class="row">
-                                <div class="fields col-6">
-                                    <label>姓名</label>
-                                    <input type="text" placeholder="收件人姓名" id="name">
-                                    <div class="error" id="nameError"></div>
+                            <form action="../../shop_order/spoServlet" method="post" id="checkout-form">
+                                <div class="row">
+                                    <div class="fields col-6">
+                                        <label>姓名</label>
+                                        <input type="text" placeholder="收件人姓名" id="name" name="name">
+                                        <div class="error" id="nameError"></div>
+                                    </div>
+                                    <div class="fields col-6">
+                                        <label>手機</label>
+                                        <input type="text" placeholder="請輸入手機號碼" id="phone" maxlength="10" name="phone">
+                                        <div class="error" id="phoneError"></div>
+                                    </div>
+                                    <div class="fields col-6">
+                                        <label>縣市</label>
+                                        <select id="city"></select>
+                                        <div class="error" id="cityError"></div>
+                                    </div>
+                                    <div class="fields col-6">
+                                        <label>鄉鎮或市區</label>
+                                        <select id="cityarea"></select>
+                                        <div class="error" id="cityareaError"></div>
+                                    </div>
+                                    <div class="fields col-6">
+                                        <label>詳細地址</label>
+                                        <input type="text" placeholder="請輸入詳細地址" id="street">
+                                        <div class="error" id="streetError"></div>
+                                    </div>
+                                    <input type="hidden" name="paytype" id="paytype">
+                                    <input type="hidden" name="postage" id="postage">
+                                    <input type="hidden" name="address" id="address">
+                                    <input type="hidden" name="action" value="insert">
                                 </div>
-                                <div class="fields col-6">
-                                    <label>手機</label>
-                                    <input type="text" placeholder="請輸入手機號碼" id="phone" maxlength="10">
-                                    <div class="error" id="phoneError"></div>
-                                </div>
-                                <div class="fields col-6">
-                                    <label>縣市</label>
-                                    <select id="city"></select>
-                                    <div class="error" id="cityError"></div>
-                                </div>
-                                <div class="fields col-6">
-                                    <label>鄉鎮或市區</label>
-                                    <select id="cityarea"></select>
-                                    <div class="error" id="cityareaError"></div>
-                                </div>
-                                <div class="fields col-6">
-                                    <label>詳細地址</label>
-                                    <input type="text" placeholder="請輸入詳細地址" id="street">
-                                    <div class="error" id="streetError"></div>
-                                </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
 
@@ -380,7 +408,7 @@
                         <div class="order-content">
                             <div class="detail-list d-flex justify-content-between">
                                 <span>商品總價</span>
-                                <span>$360</span>
+                                <span>$<span id="total"></span></span>
                             </div>
                             <div class="detail-list d-flex justify-content-between">
                                 <span>運費</span>
@@ -389,7 +417,7 @@
                             <hr>
                             <div class="detail-list d-flex justify-content-between">
                                 <h3 class="site-color">合計金額</h3>
-                                <h3 class="site-color">$0</h3>
+                                <h3 class="site-color">$<span id="pay"></span></h3>
                             </div>
                             <button class="checkout-btn" id="checkout-btn">進行結帳</button>
                         </div>
@@ -404,41 +432,135 @@
         crossorigin="anonymous"></script>
     <script src="js/taiwan_address_auto_change.js"></script>
     <script>
+        //請求商品資料
+        $.ajax({
+            type: "post",
+            url: "../../shop_order/spoServlet",
+            data: {
+                "action": "getCart"
+            },
+            dataType: "json",
+            success: function (data) {
+                for (const key in data) {
+                    let OrderTmp = `<div id="item-block" class="item-block">
+                            <div class="item-header d-flex justify-content-between">
+                                <div class="large-font">訂單商品<div class="smem"><i class="fas fa-store"></i>&nbsp&nbsp${getMemberName(key)}</div></div>
+                                <div class="small-font">價格</div>
+                            </div>
+                            <div id="item-list-${key}"></div>
+                            <div class="shipment">
+                                <div class="block-header"><i class="fas fa-truck"></i>&nbsp&nbsp配送方式</div>
+                                <div class="block-content">
+                                    <div class="shipment-list" data-shipment="delivery" data-delivery="" data-smem="${key}">
+                                        <div class="checkbox">
+                                            <div class="checkbox-check"></div>
+                                        </div>
+                                        <img class="shipment-img" src="images/truck.svg">
+                                        <div class="shipment-info">&nbsp宅配&nbsp&nbsp運費60元</div>
+                                    </div>
+                                    <div class="shipment-list pd-10" data-shipment="free" data-free="" data-smem="${key}">
+                                        <div class="checkbox">
+                                            <div class="checkbox-check"></div>
+                                        </div>
+                                        <img class="shipment-img-shop" src="images/shops.png">
+                                        <div class="shipment-info">&nbsp門市自取&nbsp&nbsp運費0元</div>
+                                    </div>
+                                    <div class="error shipmentError" id="shipmentError"></div>
+                                </div>
+                            </div>
+                        </div>`;
+                    $('#item-info').append(OrderTmp);
+
+                    for (const iterator of data[key]) {
+                        let tmpItem = `<div class="item d-flex">
+                                    <img src="../../product/ProImgOutServlet?proi_id=${getProductImg(iterator.provo.pro_id)}" alt="">
+                                    <div class="detail">
+                                        <div class="title">${iterator.provo.pro_name}</div>
+                                        <div class="count">x${iterator.spoi_quantity}</div>
+                                    </div>
+                                    <div class="price ms-auto">$${iterator.spoi_totalprice}</div>
+                                </div>`;
+                        $(`#item-list-${key}`).append(tmpItem);
+                    }
+                }
+                let pay = getTotal() + deliveryFee();
+                $('#pay').text(pay);
+            }
+        });
+
+
         //初始化地址連動選單
         AddressSeleclList.Initialize('city', 'cityarea');
 
-        let shipment="";//運送方式預設為空字串
-        let payment="";//付款方式預設為空字串
-        //點擊運送方式添加確認效果
-        $('.shipment-list').on('click', function (e) {
+        let shipment = "";//運送方式預設為空字串
+        let payment = "";//付款方式預設為空字串
+        //點擊運送方式添加確認效果item-info
+        $('#item-info').on('click', '.shipment-list', function (e) {
             shipment = e.currentTarget.dataset.shipment;
-            $('#shipmentError').text("")
+            if(shipment=="delivery"){
+                e.currentTarget.dataset.delivery = "active";
+                $(e.currentTarget).siblings('.shipment-list')[0].dataset.free = ""
+            }else if(shipment=="free"){
+                e.currentTarget.dataset.free = "active";
+                $(e.currentTarget).siblings('.shipment-list')[0].dataset.delivery = "";
+            }
+            $(e.currentTarget).siblings('.shipmentError').text("")
             $(e.currentTarget).siblings('.shipment-list').removeClass('select');
             $(e.currentTarget).siblings('.shipment-list').find('.checkbox-check').removeClass('active')
             $(e.currentTarget).addClass('select');
             $(e.currentTarget).find('.checkbox-check').addClass('active');
-            deliveryFee();
+            let pay = getTotal() + deliveryFee();
+            $('#pay').text(pay);
         })
         //確認運送方式是否有選擇
-        function checkShipment(){
-            if(shipment == ""){
-                $('#shipmentError').text("運送方式請選擇一種")
-                return false;
-            }else{
-                $('#shipmentError').text("")
+        function checkShipment() {
+            let count = 0;
+            $('.shipment-list').each(function(i){
+                if(this.dataset.delivery=="active" || this.dataset.free=="active"){
+                    count++;
+                }else{
+                    if($(this).siblings('.shipment-list')[0].dataset.free != "active" && $(this).siblings('.shipment-list')[0].dataset.delivery != "active"){
+                        $(this).siblings('.shipmentError').text("運送方式請選擇一種");
+                    }
+                }
+            })
+            console.log(count);
+            if(count == $('.shipment-list').length/2){
                 return true;
+            }else{
+                return false;
             }
         }
         
+        //取得各自對應的運費
+        function getPosttage(){
+            let postage = {};
+            $('.shipment-list').each(function(i){
+                if(this.dataset.delivery=="active"){
+                    // let smem = `{"${this.dataset.smem}":"60"}`;
+                    // postage.push(JSON.parse(smem));
+                    $(postage).prop(`${this.dataset.smem}`,"60");
+                }else if(this.dataset.free=="active"){
+                    // let smem = `{"${this.dataset.smem}":"0"}`;
+                    // postage.push(JSON.parse(smem));
+                    $(postage).prop(`${this.dataset.smem}`,"0");
+                }
+            })
+            return JSON.stringify(postage);
+        }
+
         //計算運費
-        function deliveryFee(){
-            if(shipment=="delivery"){
-                $('#delivery-fee').text("$60")
-                return 60;
-            }else if(shipment=="free"){
-                $('#delivery-fee').text("$0")
-                return 0;
-            }
+        function deliveryFee() {
+            let fee = 0
+            $('.shipment-list').each(function(i){
+                if(this.dataset.delivery=="active"){
+                    fee+=60;
+                }else if(this.dataset.free=="active"){
+                    fee+=0
+                }
+            })
+            $('#delivery-fee').text("$"+fee);
+            return fee;
         }
 
         //點擊付款方式添加確認效果
@@ -449,11 +571,11 @@
             $(e.currentTarget).addClass('select');
         })
         //確認付款方式是否有選擇
-        function checkPayment(){
-            if(payment == ""){
+        function checkPayment() {
+            if (payment == "") {
                 $('#paymentError').text("付款方式請選擇一種")
                 return false;
-            }else{
+            } else {
                 $('#paymentError').text("")
                 return true;
             }
@@ -462,7 +584,7 @@
         //驗證姓名不得為空
         $('#name').on('input', checkName);
         function checkName() {
-            if ($('#name').val() == "") {
+            if ($('#name').val().trim() == "") {
                 $('#nameError').text("收件人姓名不得為空")
                 $('#name').addClass('errorActive');
                 return false;
@@ -490,7 +612,7 @@
         }
 
         //驗證縣市是否為空
-        $('#city').on('change',checkCity);
+        $('#city').on('change', checkCity);
         function checkCity() {
             if ($('#city').val() == "") {
                 $('#cityError').text("收件人地址不得為空")
@@ -504,7 +626,7 @@
         }
 
         //驗證鄉鎮或市區是否為空
-        $('#city').on('change',checkCityarea);
+        $('#city').on('change', checkCityarea);
         function checkCityarea() {
             if ($('#cityarea').val() == "") {
                 $('#cityareaError').text("收件人地址不得為空")
@@ -520,7 +642,7 @@
         //驗證詳細地址是否為空
         $('#street').on('input', checkStreet);
         function checkStreet() {
-            if ($('#street').val() == "") {
+            if ($('#street').val().trim() == "") {
                 $('#streetError').text("收件人詳細地址不得為空")
                 $('#street').addClass('errorActive');
                 return false;
@@ -534,16 +656,77 @@
         //送出結帳表單
         $('#checkout-btn').on('click', function () {
             if (checkName() & checkPhone() & checkCity() & checkCityarea() & checkStreet() & checkShipment() & checkPayment()) {
-                alert('success');
-                // AddressSeleclList.ReturnSelectAddress('city', 'cityarea');
-
-            }else{
-                alert('error');
+            //取得付款方式
+            if(payment=="creditCard"){
+                $('#paytype').val(0);
+            }else if(payment=="transfer"){
+                $('#paytype').val(1);
+            }
+            $('#postage').val(getPosttage());//取得運費並給值
+            let address = AddressSeleclList.ReturnSelectAddress('city', 'cityarea') + $('#street').val();
+            $('#address').val(address);//取得地址並給值
+            $('#checkout-form').submit();
+            } else {
+                swal("訂單資訊未完整", "請重新確認訂單內容", "error");
             }
         });
 
+        //取得商品照片ID
+        function getProductImg(pro_id) {
+            let proi_id = 0;
+            $.ajax({
+                type: "post",
+                url: "../../product/ProImgSelServlet",
+                data: { "proi_pro_id": pro_id },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    proi_id = data[0].proi_id;
+                }
+            });
+            return proi_id;
+        }
 
+        //取得商品總金額
+        function getTotal() {
+            let total = 0;
+            $.ajax({
+                type: "get",
+                url: "../../shop_order_item/spoiServlet",
+                dataType: 'json',
+                data: {
+                    "action": "getCart"
+                },
+                async: false,
+                success: function (data) {
+                    for (const key in data) {
+                        total += data[key].spoi_totalprice;
+                    }
+                    $('#total').text(total);
+                }
+            });
+            return total;
+        }
 
+        //會員編號找到會員名稱
+        function getMemberName(mem_id){
+            let mem_name = "";
+            $.ajax({
+                type: "post",
+                url: "../../member/memberServlet",
+                data: {
+                    "action":"buyMemberGetOne",
+                    "mem_id":mem_id
+                },
+                async:false,
+                dataType: "json",
+                success: function (response) {
+                    console.log(response);
+                    mem_name = response.mem_name;
+                }
+            });
+            return mem_name;
+        }
     </script>
 
 </body>

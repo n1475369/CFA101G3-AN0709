@@ -34,4 +34,9 @@ public class SpoiVO implements Serializable{
 	public void setSpoi_totalprice(Integer spoi_totalprice) {
 		this.spoi_totalprice = spoi_totalprice;
 	}
+	@Override
+	public String toString() {
+		return "SpoiVO [spo_id=" + spo_id + ", provo=" + provo + ", spoi_quantity=" + spoi_quantity
+				+ ", spoi_totalprice=" + spoi_totalprice + "]";
+	}
 	}
