@@ -310,45 +310,8 @@
             <div class="row">
                 <div class="col-8">
                     <div class="item-info" id="item-info">
-                        <!-- <div id="item-block">
-                            <div class="item-header d-flex justify-content-between">
-                                <div class="large-font">訂單商品</div>
-                                <div class="small-font">價格</div>
-                            </div>
-                            <div class="smem"><i class="fas fa-store"></i></div>
-                            <div id="item-list">
-                                <div class="item d-flex">
-                                    <img src="images/animal_penguin_couple.png" alt="">
-                                    <div class="detail">
-                                        <div class="title">日本銀座職人咖啡(8g x 10包)</div>
-                                        <div class="count">x1</div>
-                                    </div>
-                                    <div class="price ms-auto">$360</div>
-                                </div>
-                            </div>
-                            <div class="shipment">
-                                <div class="block-header"><i class="fas fa-truck"></i>&nbsp&nbsp配送方式</div>
-                                <div class="block-content">
-                                    <div class="shipment-list" data-shipment="delivery">
-                                        <div class="checkbox">
-                                            <div class="checkbox-check"></div>
-                                        </div>
-                                        <img class="shipment-img" src="images/truck.svg">
-                                        <div class="shipment-info">&nbsp宅配&nbsp&nbsp運費60元</div>
-                                    </div>
-                                    <div class="shipment-list pd-10" data-shipment="free">
-                                        <div class="checkbox">
-                                            <div class="checkbox-check"></div>
-                                        </div>
-                                        <img class="shipment-img-shop" src="images/shops.png">
-                                        <div class="shipment-info">&nbsp門市自取&nbsp&nbsp運費0元</div>
-                                    </div>
-                                    <div class="error" id="shipmentError"></div>
-                                </div>
-                            </div>
-                        </div> -->
+                        <!-- 資料由這開始塞 -->
                     </div>
-
                     <div class="payment">
                         <div class="block-header"><i class="fas fa-money-bill-wave"></i>&nbsp&nbsp付款方式</div>
                         <div class="block-content">
@@ -537,12 +500,8 @@
             let postage = {};
             $('.shipment-list').each(function(i){
                 if(this.dataset.delivery=="active"){
-                    // let smem = `{"${this.dataset.smem}":"60"}`;
-                    // postage.push(JSON.parse(smem));
                     $(postage).prop(`${this.dataset.smem}`,"60");
                 }else if(this.dataset.free=="active"){
-                    // let smem = `{"${this.dataset.smem}":"0"}`;
-                    // postage.push(JSON.parse(smem));
                     $(postage).prop(`${this.dataset.smem}`,"0");
                 }
             })
