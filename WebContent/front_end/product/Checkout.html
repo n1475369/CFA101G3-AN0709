@@ -273,7 +273,7 @@
         margin-top: 20px;
         border-radius: 5px;
     }
-
+   
     .error {
         color: rgb(247, 66, 47);
         font-size: 12px;
@@ -615,6 +615,10 @@
         //送出結帳表單
         $('#checkout-btn').on('click', function () {
             if (checkName() & checkPhone() & checkCity() & checkCityarea() & checkStreet() & checkShipment() & checkPayment()) {
+            let loading = `<i class="fa fa-spinner fa-spin"></i>Loading`;
+            $(this).prop("disabled", "disabled");//按鈕為disabled狀態
+            $(this).html(loading);//等待動畫
+
             //取得付款方式
             if(payment=="creditCard"){
                 $('#paytype').val(0);

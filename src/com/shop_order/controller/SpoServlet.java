@@ -35,7 +35,9 @@ public class SpoServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=utf-8");
-
+		response.setHeader("Cache-Control","no-store");//清快取
+		response.setHeader("Pragma","no-cache");//清快取
+		response.setDateHeader("Expires",0);//清快取
 		String action = request.getParameter("action");
 		
 		//將購物車map轉換成賣家對應商品明細map
@@ -112,9 +114,68 @@ public class SpoServlet extends HttpServlet {
 			
 			//新增多筆訂單
 			SpoService spoService = new SpoService();
-			spoService.insertMultiple(smemMap, name, phone, paytype, postageMap, address, bmem_id);
+			List<Integer> spo_idList = spoService.insertMultiple(smemMap, name, phone, paytype, postageMap, address, bmem_id);
+			session.setAttribute("spo_idList", spo_idList);//將訂單ID List存到session
+			
+			//計算付款金額後轉交jsp
+			Integer payment = 0;//給定付款金額初值
+			Set<Integer> keySet2 = smemMap.keySet();
+			 for (Integer smem_id : keySet2) {
+				 	List<SpoiVO> list = smemMap.get(smem_id);//獲取訂單明細VO
+				 	for(SpoiVO spoiVO : list) {
+				 		payment += spoiVO.getSpoi_totalprice();//訂單明細金額加總
+				 	}
+				 	payment += postageMap.get(smem_id);//實付金額加上運費
+			 }
+			session.removeAttribute("cart");//清空購物車商品
+			request.setAttribute("payment", payment);
+			
+			//付款方式為信用卡forword至對應的jsp
+			if(paytype==0) {
+				request.getRequestDispatcher("/front_end/product/CreditCard.jsp").forward(request, response);
+			}else if(paytype==1) {
+				request.getRequestDispatcher("/front_end/product/WebATM.jsp").forward(request, response);
+			}
+			
 			} catch (Exception e) {
 				e.printStackTrace();
+			}
+		}
+		
+		//信用卡付款確認
+		if("creditcard".equals(action)) {
+			request.removeAttribute("payment");
+			String cardnumber = request.getParameter("cardnumber");
+			String expirationdate = request.getParameter("expirationdate");
+			String securitycode = request.getParameter("securitycode");
+			HttpSession session = request.getSession();
+			List<Integer> spo_idList = (List<Integer>)session.getAttribute("spo_idList");//取得訂單ID List
+			session.removeAttribute("spo_idList");
+			SpoService spoService = new SpoService();
+			if("4321 4321 4321 4321".equals(cardnumber) && "10/25".equals(expirationdate) && "333".equals(securitycode)) {
+				spoService.updateAllSpo_pay_status(spo_idList, 3);//更新為付款成功
+				request.getRequestDispatcher("/front_end/product/Success.jsp").forward(request, response);
+			}else {
+				spoService.updateAllSpo_pay_status(spo_idList, 1);//更新為付款失敗
+				request.getRequestDispatcher("/front_end/product/Error.jsp").forward(request, response);
+			}
+		}
+		
+		//WebATM付款確認
+		if("webATM".equals(action)) {
+			Integer payment = Integer.parseInt(request.getParameter("payment").trim());
+			Integer pay = Integer.parseInt(request.getParameter("pay").trim());
+			request.removeAttribute("payment");
+			HttpSession session = request.getSession();
+			List<Integer> spo_idList = (List<Integer>)session.getAttribute("spo_idList");//取得訂單ID List
+			session.removeAttribute("spo_idList");
+			SpoService spoService = new SpoService();
+			if(pay.equals(payment)) {
+				spoService.updateAllSpo_pay_status(spo_idList, 3);//更新為付款成功
+				request.getRequestDispatcher("/front_end/product/Success.jsp").forward(request, response);
+			}else {
+				spoService.updateAllSpo_pay_status(spo_idList, 1);//更新為付款失敗
+				request.getRequestDispatcher("/front_end/product/Error.jsp").forward(request, response);
 			}
 		}
 	}

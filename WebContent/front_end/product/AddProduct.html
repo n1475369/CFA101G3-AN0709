@@ -284,8 +284,10 @@
                 $('#cart').html("購物車尚未有任何商品");
                 $('#cartIcon').html("");
                 $('#total-list').addClass("hide");
+                $("#checkout").attr("disabled", "disabled") 
             }else{
                 $('#total-list').removeClass("hide");
+                $("#checkout").removeAttr("disabled") 
             }
         }
         

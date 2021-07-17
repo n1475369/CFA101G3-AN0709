@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<%
+	Object payment = request.getAttribute("payment");
+	if(payment == null){
+		response.sendRedirect("/index.html");
+	}
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -472,7 +480,7 @@
     <div class="loader3" id="loader">Loading...</div>
     <div class="payment-title">
         <h3>信用卡付款資訊</h3>
-        <h4>付款金額:</h4>
+        <h4>付款金額:$${payment}</h4>
     </div>
     <div class="container preload">
         <div class="creditcard">
@@ -581,7 +589,7 @@
         </div>
     </div>
     <div class="form-container">
-        <form action="ss/ss.do" id="submit-form" method="post">
+        <form action="<%=request.getContextPath()%>/shop_order/spoServlet" id="submit-form" method="post">
             <div class="field-container">
                 <label for="name">持卡人姓名</label>
                 <input id="name" maxlength="20" type="text">
@@ -589,7 +597,7 @@
             <div class="field-container">
                 <label for="cardnumber">信用卡號</label>
                 <!-- <span id="generatecard">隨機卡號</span> -->
-                <input id="cardnumber" type="text" pattern="[0-9]*" inputmode="numeric">
+                <input id="cardnumber" type="text" pattern="[0-9]*" inputmode="numeric" name="cardnumber">
                 <svg id="ccicon" class="ccicon" width="750" height="471" viewBox="0 0 750 471" version="1.1"
                     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     
@@ -597,12 +605,13 @@
             </div>
             <div class="field-container">
                 <label for="expirationdate">有效日期(mm/yy)</label>
-                <input id="expirationdate" type="text" pattern="[0-9]*" inputmode="numeric">
+                <input id="expirationdate" type="text" pattern="[0-9]*" inputmode="numeric" name="expirationdate">
             </div>
             <div class="field-container">
                 <label for="securitycode">驗證碼</label>
-                <input id="securitycode" type="text" pattern="[0-9]*" inputmode="numeric" maxlength="3">
+                <input id="securitycode" type="text" pattern="[0-9]*" inputmode="numeric" maxlength="3" name="securitycode">
             </div>
+            <input type="hidden" name="action" value="creditcard">
         </form>
     </div>
     <button class="button" type="button" id="submit" style="vertical-align:middle"><span>送出 </span></button>
@@ -888,11 +897,9 @@
                 document.querySelector('.creditcard').classList.add('flipped');
             });
 
-            
+            //送出付款表單
             $('#submit').on('click',function(e){
-                let cardnumber = $('#cardnumber').val().replace(/\s/g,"");
                 $(this).hide();
-                console.log(cardnumber);
                 $('.container').hide();
                 $('.form-container').hide();
                 $('#loader').show();

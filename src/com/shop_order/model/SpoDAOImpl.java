@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -31,11 +32,13 @@ public class SpoDAOImpl implements SpoDAO{
 	}
 	
 	private static final String INSERT = "insert into SHOP_ORDER (spo_time,spo_payment,spo_postage,spo_bmem_id,spo_smem_id,spo_receiver_name,spo_receiver_phone,spo_receiver_address,spo_paytype,spo_status,spo_pay_status,spo_cargo_status) values(?,?,?,?,?,?,?,?,?,?,?,?)";
-	
+	private static final String UPDATE_SPO_PAY_STATUS = "update shop_order set spo_pay_status = ? where spo_id = ?";
+
 	//新增商品訂單(需藉由別人的連線)(單筆)
 	@Override
-	public void insert(SpoVO spoVO, List<SpoiVO> spoiVOList,Connection con) {
+	public Integer insert(SpoVO spoVO, List<SpoiVO> spoiVOList,Connection con) {
 		PreparedStatement pstmt = null;
+		Integer spo_id = null;
 		try {
 			String[] cols = {"SPO_ID"};
 			pstmt = con.prepareStatement(INSERT,cols);
@@ -59,7 +62,9 @@ public class SpoDAOImpl implements SpoDAO{
 			rs.next();
 			next_spo_id = rs.getString(1);
 			rs.close();
-
+			spo_id = Integer.parseInt(next_spo_id);
+			
+			
 			//新增商品明細
 			SpoiDAOImpl dao = new SpoiDAOImpl();
 			for (SpoiVO spoiVO : spoiVOList) {
@@ -86,14 +91,15 @@ public class SpoDAOImpl implements SpoDAO{
 				}
 			}
 		}
-		
+		return spo_id;
 	}
-
+	//新增多筆訂單
 	@Override
-	public void insertMultiple(HashMap<Integer, List<SpoiVO>> smemMap, String name, String phone, Integer paytype,
+	public List<Integer> insertMultiple(HashMap<Integer, List<SpoiVO>> smemMap, String name, String phone, Integer paytype,
 			HashMap<Integer,Integer> postageMap, String address, Integer bmem_id) {
 		Connection con = null;
 		SpoVO spoVO = null;
+		List<Integer> spo_idList = new ArrayList<Integer>();
 		try {
 			con = ds.getConnection();
 			con.setAutoCommit(false);//開啟交易模式
@@ -118,7 +124,8 @@ public class SpoDAOImpl implements SpoDAO{
 					spoVO.setSpo_status(0);
 					spoVO.setSpo_pay_status(0);
 					spoVO.setSpo_cargo_status(0);
-					insert(spoVO, list, con);//新增單筆訂單
+					Integer spo_id = insert(spoVO, list, con);//新增單筆訂單
+					spo_idList.add(spo_id);//訂單ID加到List
 			}
 			con.commit();//交易完成
 			con.setAutoCommit(true);//關閉交易
@@ -132,6 +139,7 @@ public class SpoDAOImpl implements SpoDAO{
 				}
 			}
 			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
 		} finally {
 			if(con != null) {
 				try {
@@ -141,7 +149,40 @@ public class SpoDAOImpl implements SpoDAO{
 				}
 			}
 		}
-		
+		return spo_idList;
+	}
+	
+	//更新多筆訂單付款狀態
+	@Override
+	public void updateAllSpo_pay_status(List<Integer> spo_idList, Integer spo_pay_status) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			con = ds.getConnection();
+			for(Integer spo_id : spo_idList) {
+				pstmt = con.prepareStatement(UPDATE_SPO_PAY_STATUS);
+				pstmt.setInt(1, spo_pay_status);
+				pstmt.setInt(2, spo_id);
+				pstmt.executeUpdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 }
